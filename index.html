@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Vérification Astrale</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: radial-gradient(circle at top, #0b1026, #000);
+        color: white;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .box {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 0 40px rgba(120,120,255,0.3);
+        width: 320px;
+    }
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    .stars {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+    }
+
+    .star {
+        font-size: 40px;
+        cursor: pointer;
+        opacity: 0.4;
+        transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .star.active {
+        opacity: 1;
+        transform: scale(1.2);
+        text-shadow: 0 0 15px #9aa7ff;
+    }
+
+    button {
+        background: linear-gradient(135deg, #5b6cff, #8fa3ff);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    #result {
+        margin-top: 15px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Vérification Astrale</h2>
+    <p>Active les étoiles dans l’ordre correct</p>
+
+    <div class="stars">
+        <div class="star" data-id="1">★</div>
+        <div class="star" data-id="2">★</div>
+        <div class="star" data-id="3">★</div>
+        <div class="star" data-id="4">★</div>
+    </div>
+
+    <button onclick="verify()">Vérifier</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    const order = [];
+    const secret = ["3", "1", "4", "2"];
+
+    document.querySelectorAll(".star").forEach(star => {
+        star.addEventListener("click", () => {
+            if (!star.classList.contains("active")) {
+                star.classList.add("active");
+                order.push(star.dataset.id);
+            }
+        });
+    });
+
+    function verify() {
+        const result = document.getElementById("result");
+
+        if (JSON.stringify(order) === JSON.stringify(secret)) {
+            result.style.color = "#7CFF9B";
+            result.textContent = "✔ Vérification réussie";
+        } else {
+            result.style.color = "#FF6B6B";
+            result.textContent = "✖ Échec de vérification";
+            reset();
+        }
+    }
+
+    function reset() {
+        order.length = 0;
+        document.querySelectorAll(".star").forEach(star => {
+            star.classList.remove("active");
+        });
+    }
+</script>
+
+</body>
+</html>
